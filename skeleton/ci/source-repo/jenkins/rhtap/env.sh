@@ -38,5 +38,5 @@ export INFO=true
 export STRICT=true
 export EFFECTIVE_TIME=now
 export HOMEDIR=$(pwd)
-export REKOR_HOST=https://rekor-server-rhtap-tas.apps.rosa.yux3q-mdwy3-8t2.ok1t.p3.openshiftapps.com
-export TUF_MIRROR=https://tuf-rhtap-tas.apps.rosa.yux3q-mdwy3-8t2.ok1t.p3.openshiftapps.com
+export REKOR_HOST=https://rekor-server-rhtap-tas.apps.rosa.rc442-mnk7z-762.zfjd.p3.openshiftapps.com
+export TUF_MIRROR=https://tuf-rhtap-tas.apps.rosa.rc442-mnk7z-762.zfjd.p3.openshiftapps.com
