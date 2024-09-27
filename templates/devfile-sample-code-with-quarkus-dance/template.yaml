@@ -82,9 +82,11 @@ spec:
                   enum:
                     - tekton
                     - jenkins 
+                    - githubactions 
                   enumNames:
                     - Tekton (SLSA 3)
                     - Jenkins (SLSA 2) 
+                    - Github Actions (SLSA 2) 
             - required:
                 - gitlabServer
                 - ciType
@@ -102,10 +104,12 @@ spec:
                   default: tekton
                   enum:
                     - tekton
-                    - jenkins 
+                    - jenkins
+                    - gitlabci
                   enumNames:
                     - Tekton (SLSA 3)
                     - Jenkins (SLSA 2) 
+                    - Gitlab CI (SLSA 2) 
     - title: Deployment information
       required:
         - imageRegistry
