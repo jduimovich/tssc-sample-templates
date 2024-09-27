@@ -183,7 +183,9 @@ spec:
       name: Fetch CI Components
       action: fetch:template
       input:
-        url: ../../skeleton/ci/source-repo/${{ parameters.ciType}} 
+        url: ../../skeleton/ci/source-repo/${{ parameters.ciType}}  
+        copyWithoutRender:
+          - .github/workflows/*
         values:
           name: ${{ parameters.name }}
           namespace: ${{ parameters.namespace }}
