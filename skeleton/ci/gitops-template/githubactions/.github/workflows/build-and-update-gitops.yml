@@ -13,6 +13,9 @@ env:
   IMAGE_REGISTRY_USER: jduimovich0    # ${{ secrets.IMAGE_REGISTRY_USER }}
   IMAGE_REGISTRY_PASSWORD: ${{ secrets.IMAGE_REGISTRY_PASSWORD }}
  
+  ROX_CENTRAL_ENDPOINT: ${{ secrets.ROX_CENTRAL_ENDPOINT }}
+  ROX_API_TOKEN: ${{ secrets.ROX_API_TOKEN }}
+
   QUAY_IO_CREDS_USR: ${{ secrets.QUAY_IO_CREDS_USR }}
   QUAY_IO_CREDS_PSW: ${{ secrets.QUAY_IO_CREDS_PSW }}
   COSIGN_SECRET_PASSWORD: ${{ secrets.COSIGN_SECRET_PASSWORD }}
@@ -26,7 +29,7 @@ env:
   DEFAULT_UPDATE_VIA_PUSH: "true"
   # 🖊️ EDIT to set a name for your OpenShift app, or a default one will be generated below.
   APP_NAME: "" 
-on: [push, workflow_dispatch] 
+on: [ push, workflow_dispatch] 
 
 jobs:
   tssc-ci-cd:
@@ -41,7 +44,23 @@ jobs:
       with:
         script: |
           const secrets = { 
+            IMAGE_REGISTRY: `${{ secrets.IMAGE_REGISTRY }}`,
+            IMAGE_REGISTRY_USER: `${{ secrets.IMAGE_REGISTRY_USER }}`,
             IMAGE_REGISTRY_PASSWORD: `${{ secrets.IMAGE_REGISTRY_PASSWORD }}`,
+
+            
+            ROX_CENTRAL_ENDPOINT: `${{ secrets.ROX_CENTRAL_ENDPOINT }}`,
+            ROX_API_TOKEN: `${{ secrets.ROX_API_TOKEN }}`,
+            
+            QUAY_IO_CREDS_USR: `${{ secrets.QUAY_IO_CREDS_USR }}`,
+            QUAY_IO_CREDS_PSW: `${{ secrets.QUAY_IO_CREDS_PSW }}`,
+
+            COSIGN_SECRET_PASSWORD: `${{ secrets.COSIGN_SECRET_PASSWORD }}`,
+            COSIGN_SECRET_KEY: `${{ secrets.COSIGN_SECRET_KEY }}`,
+            COSIGN_PUBLIC_KEY: `${{ secrets.COSIGN_PUBLIC_KEY }}`,
+
+            GITOPS_AUTH_PASSWORD: `${{ secrets.GITOPS_AUTH_PASSWORD }}`,
+
           }; 
           const missingSecrets = Object.entries(secrets).filter(([ name, value ]) => {
             if (value.length === 0) {
