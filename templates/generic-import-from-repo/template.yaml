@@ -6,6 +6,8 @@ metadata:
   title: Import User Repository
   description:  Import an existing repository, create a new one with software supply chain security functionalty using an advanced continuous integration pipeline covering building, CVE scanning, security scanning, signatures, attestations, SLSA provenance and SBOM along with Gitops-based continuous deployment. 
   tags: ["generic", "sscs", "sbom", "acs"]
+  annotations:    
+    backstage.io/techdocs-ref: dir:.  
 spec:
   type: service
   # These parameters are used to generate the input form in the frontend, and are
@@ -176,6 +178,16 @@ spec:
       action: fetch:template
       input:
         url: ${{ parameters.inputUrl }}
+        values:
+          name: ${{ parameters.name }}
+          namespace: ${{ parameters.namespace }}
+          repoURL: https://${{ parameters.githubServer if parameters.hostType === 'GitHub' else parameters.gitlabServer }}/${{ parameters.repoOwner }}/${{ parameters.repoName }}-gitops
+          srcRepoURL: https://${{ parameters.githubServer if parameters.hostType === 'GitHub' else parameters.gitlabServer }}/${{ parameters.repoOwner }}/${{ parameters.repoName }}
+    - id: fetch-docs
+      name: Fetch Docs
+      action: fetch:template
+      input:
+        url: ./content
         values:
           name: ${{ parameters.name }}
           namespace: ${{ parameters.namespace }}
