@@ -3,7 +3,7 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: import-repo
-  title:  Import Repository
+  title: Generi Import User Repository
   description:  Import an existing repository, create a new one with software supply chain security functionalty using an advanced continuous integration pipeline covering building, CVE scanning, security scanning, signatures, attestations, SLSA provenance and SBOM along with Gitops-based continuous deployment. 
   tags: ["generic", "sscs", "sbom", "acs"]
 spec:
