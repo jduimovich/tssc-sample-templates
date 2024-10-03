@@ -39,7 +39,7 @@ spec:
           title: Repository to Import
           type: string
           ui:help: The repo to import into the new sample
-          default: your-url-here
+          default: https://github.com/redhat-appstudio/devfile-sample-nodejs-dance
     - title: Application Repository Information
       required:
         - hostType
