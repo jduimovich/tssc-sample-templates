@@ -114,9 +114,19 @@ spec:
             - required:
                 - bitbucketServer
                 - ciType
+                - workspace
+                - project
               properties:
                 hostType:
-                    const: Bitbucket
+                    const: Bitbucket 
+                workspace:
+                  title: Workspace
+                  type: string 
+                  ui:help: "Bitbucket Workspace"
+                project:
+                  title: Project
+                  type: string 
+                  ui:help: "Bitbucket Project"
                 bitbucketServer:
                   title: Repository Server
                   type: string
@@ -252,7 +262,7 @@ spec:
       input:
         allowedHosts: [ '${{ parameters.bitbucketServer }}' ]
         description: This is ${{ parameters.name }}
-        repoUrl: ${{ parameters.bitbucketServer }}?owner=${{ parameters.repoOwner }}&repo=${{ parameters.repoName }}
+        repoUrl: ${{ parameters.bitbucketServer }}?owner=${{ parameters.repoOwner }}&repo=${{ parameters.repoName }}&project=${{ parameters.project }}&workspace=${{ parameters.workspace }}
         defaultBranch: ${{ parameters.branch }}
         protectDefaultBranch: false
         repoVisibility: "public"
@@ -366,7 +376,7 @@ spec:
         sourcePath: gitops
         allowedHosts: ['${{ parameters.bitbucketServer }}']
         description: This is GitOps repository for ${{ parameters.name }}
-        repoUrl:  ${{ parameters.bitbucketServer }}?owner=${{ parameters.repoOwner }}&repo=${{ parameters.repoName }}-gitops
+        repoUrl:  ${{ parameters.bitbucketServer }}?owner=${{ parameters.repoOwner }}&repo=${{ parameters.repoName }}-gitops&project=${{ parameters.project }}&workspace=${{ parameters.workspace }}
         defaultBranch: "main"
         protectDefaultBranch: false
         repoVisibility: "public"
