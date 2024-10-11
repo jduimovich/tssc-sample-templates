@@ -1,6 +1,8 @@
 # PE can replace these values with on-prem host
 export GITHUB__DEFAULT__HOST=github.com
 export GITLAB__DEFAULT__HOST=gitlab.com
+export BITBUCKET__DEFAULT__HOST=bitbucket.org 
+
 export QUAY__DEFAULT__HOST=quay.io
 
 # leave empty if you don't want to set defaults for your git or quay org 
