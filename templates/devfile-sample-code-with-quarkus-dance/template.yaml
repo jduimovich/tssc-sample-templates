@@ -132,7 +132,7 @@ spec:
                   title: Repository Owner
                   type: string
                   ui:help: The organization, user or project that this repo will belong to
-                  default: bitbucket.org
+                  default: jduimovich-admin
                 bbHost:
                   title: Repository Server
                   type: string
