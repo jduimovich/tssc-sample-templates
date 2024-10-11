@@ -390,13 +390,13 @@ spec:
       name: Register
       action: catalog:register
       input:
-        repoContentsUrl: ${{ steps['publish-github'].output.repoContentsUrl if steps['publish-github'].output else steps['publish-gitlab'].output.repoContentsUrl }}
+        repoContentsUrl: ${{ steps['publish-github'].output.repoContentsUrl if steps['publish-github'].output else steps['publish-gitlab'].output.repoContentsUrl  if steps['publish-gitlab'].output else steps['publish-bitbucket'].output.repoContentsUrl }}
         catalogInfoPath: '/catalog-info.yaml'
     - id: register-gitops
       name: Register Gitops
       action: catalog:register
       input:
-        repoContentsUrl: ${{ steps['publish-github-gitops'].output.repoContentsUrl if steps['publish-github-gitops'].output else steps['publish-gitlab-gitops'].output.repoContentsUrl }}
+        repoContentsUrl: ${{ steps['publish-github-gitops'].output.repoContentsUrl if steps['publish-github-gitops'].output else steps['publish-gitlab-gitops'].output.repoContentsUrl  if steps['publish-gitlab-gitops'].output else steps['publish-bitbucket-gitops'].output.repoContentsUrl }}  
         catalogInfoPath: '/catalog-info.yaml'
     - id: create-argocd-resources
       name: Create ArgoCD Resources
@@ -412,9 +412,9 @@ spec:
   output:
     links:
       - title: Source Repository
-        url: ${{ steps['publish-github'].output.remoteUrl if steps['publish-github'].output else steps['publish-gitlab'].output.remoteUrl }}
+        url: ${{ steps['publish-github'].output.remoteUrl if steps['publish-github'].output else steps['publish-gitlab'].output.remoteUrl  if steps['publish-gitlab'].output else steps['publish-bitbucket'].output.remoteUrl }}
       - title: GitOps Repository
-        url: ${{ steps['publish-github-gitops'].output.remoteUrl if steps['publish-github-gitops'].output else steps['publish-gitlab-gitops'].output.remoteUrl }}
+        url: ${{ steps['publish-github-gitops'].output.remoteUrl if steps['publish-github-gitops'].output else steps['publish-gitlab-gitops'].output.remoteUrl  if steps['publish-gitlab-gitops'].output else steps['publish-bitbucket-gitops'].output.remoteUrl }}
       - title: Open Component in catalog
         icon: catalog
         entityRef: ${{ steps['register'].output.entityRef }}
