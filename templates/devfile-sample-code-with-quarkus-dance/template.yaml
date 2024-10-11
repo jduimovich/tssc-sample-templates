@@ -102,7 +102,7 @@ spec:
                 ciType:
                   title: CI Provider
                   type: string
-                  default: tekton
+                  default: gitlabci
                   enum:
                     - tekton
                     - jenkins
@@ -187,8 +187,8 @@ spec:
         values:
           name: ${{ parameters.name }}
           namespace: ${{ parameters.namespace }}
-          repoURL: https://${{ parameters.gitServerHost if parameters.hostType === 'GitHub' else parameters.gitServerHost }}/${{ parameters.repoOwner }}/${{ parameters.repoName }}-gitops
-          srcRepoURL: https://${{ parameters.gitServerHost if parameters.hostType === 'GitHub' else parameters.gitServerHost }}/${{ parameters.repoOwner }}/${{ parameters.repoName }}
+          repoURL: https://${{ parameters.gitServerHost }}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else parameters.repoOwner  }}/${{ parameters.repoName }}-gitops
+          srcRepoURL: https://${{ parameters.gitServerHost }}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else parameters.repoOwner  }}/${{ parameters.repoName }}
           
     # Renders all the template variables into the files and directory names and content, and places the result in the workspace.
     - id: fetch-skeleton
@@ -205,7 +205,7 @@ spec:
           gitopsSecretName: ${{ 'gitops-auth-secret' if parameters.hostType === 'GitHub' else 'gitlab-auth-secret' }}
           image: '${{ parameters.imageRegistry }}/${{ parameters.imageOrg }}/${{ parameters.imageName }}'
           tags: '["java", "quarkus", "sscs", "sbom", "acs"]'
-          repoURL: https://${{ parameters.gitServerHost if parameters.hostType === 'GitHub' else parameters.gitServerHost }}/${{ parameters.repoOwner }}/${{ parameters.repoName }}-gitops  
+          repoURL: https://${{ parameters.gitServerHost }}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else parameters.repoOwner  }}/${{ parameters.repoName }}-gitops  
           owner: ${{ parameters.owner }} 
           repoSlug: '${{ parameters.imageOrg }}/${{ parameters.imageName }}'
           defaultBranch: ${{ parameters.branch }} 
@@ -227,7 +227,7 @@ spec:
           gitopsSecretName: ${{ 'gitops-auth-secret' if parameters.hostType === 'GitHub' else 'gitlab-auth-secret' }}
           image: '${{ parameters.imageRegistry }}/${{ parameters.imageOrg }}/${{ parameters.imageName }}'
           tags: '["java", "quarkus", "sscs", "sbom", "acs"]'
-          repoURL: https://${{ parameters.gitServerHost if parameters.hostType === 'GitHub' else parameters.gitServerHost }}/${{ parameters.repoOwner }}/${{ parameters.repoName }}-gitops  
+          repoURL: https://${{ parameters.gitServerHost }}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else parameters.repoOwner  }}/${{ parameters.repoName }}-gitops  
           owner: ${{ parameters.owner }} 
           repoSlug: '${{ parameters.imageOrg }}/${{ parameters.imageName }}'
           defaultBranch: ${{ parameters.branch }}  
@@ -282,8 +282,8 @@ spec:
           rhtapNamespace: rhtap
           defaultDeployNamespace: rhtap-app
           # example: github.com?owner=<owner>&repo=<srcRepo>, the gitops repo name will be <srcRepo>-gitops
-          repoURL: https://${{ parameters.gitServerHost if parameters.hostType === 'GitHub' else parameters.gitServerHost }}/${{ parameters.repoOwner }}/${{ parameters.repoName }}-gitops
-          srcRepoURL: https://${{ parameters.gitServerHost if parameters.hostType === 'GitHub' else parameters.gitServerHost }}/${{ parameters.repoOwner }}/${{ parameters.repoName }}
+          repoURL: https://${{ parameters.gitServerHost }}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else parameters.repoOwner  }}/${{ parameters.repoName }}-gitops
+          srcRepoURL: https://${{ parameters.gitServerHost }}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else parameters.repoOwner  }}/${{ parameters.repoName }}
           argoComponent: './components/${{ parameters.name }}/overlays/development'
           argoComponentOverlays: './components/${{ parameters.name }}/overlays'
           owner: ${{ parameters.owner }} 
@@ -316,8 +316,8 @@ spec:
           rhtapNamespace: rhtap
           defaultDeployNamespace: rhtap-app
           # example: github.com?owner=<owner>&repo=<srcRepo>, the gitops repo name will be <srcRepo>-gitops
-          repoURL: https://${{ parameters.gitServerHost if parameters.hostType === 'GitHub' else parameters.gitServerHost }}/${{ parameters.repoOwner }}/${{ parameters.repoName }}-gitops
-          srcRepoURL: https://${{ parameters.gitServerHost if parameters.hostType === 'GitHub' else parameters.gitServerHost }}/${{ parameters.repoOwner }}/${{ parameters.repoName }}
+          repoURL: https://${{ parameters.gitServerHost }}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else parameters.repoOwner  }}/${{ parameters.repoName }}-gitops
+          srcRepoURL: https://${{ parameters.gitServerHost }}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else parameters.repoOwner  }}/${{ parameters.repoName }}
           argoComponent: './components/${{ parameters.name }}/overlays/development'
           argoComponentOverlays: './components/${{ parameters.name }}/overlays'
           owner: ${{ parameters.owner }} 
@@ -406,7 +406,7 @@ spec:
         # name set in rhdh config
         argoInstance: default
         namespace: rhtap
-        repoUrl: https://${{ parameters.gitServerHost if parameters.hostType === 'GitHub' else parameters.gitServerHost }}/${{ parameters.repoOwner }}/${{ parameters.repoName }}-gitops.git
+        repoUrl: https://${{ parameters.gitServerHost }}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else parameters.repoOwner  }}/${{ parameters.repoName }}-gitops.git
         path: './app-of-apps'
   # Outputs are displayed to the user after a successful execution of the template.
   output:
