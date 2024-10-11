@@ -50,6 +50,11 @@ spec:
             - GitLab
             - Bitbucket
           default: GitHub
+        repoOwner:
+          title: Repository Owner
+          type: string
+          ui:help: The organization, user or project that this repo will belong to
+          ${DEFAULT_ORG_FOR_GITHUB}
         repoName:
           title: Repository Name
           type: string
@@ -63,15 +68,9 @@ spec:
             - required:
                 - gitServerHost
                 - ciType
-                - repoOwner
               properties:
                 hostType:
                     const: GitHub
-                repoOwner:
-                  title: Repository Owner
-                  type: string
-                  ui:help: The organization, user or project that this repo will belong to
-                  ${DEFAULT_ORG_FOR_GITHUB}
                 gitServerHost:
                   title: Repository Server
                   type: string
@@ -92,15 +91,9 @@ spec:
             - required:
                 - gitServerHost
                 - ciType
-                - repoOwner
               properties:
                 hostType:
                     const: GitLab
-                repoOwner:
-                  title: Repository Owner
-                  type: string
-                  ui:help: The organization, user or project that this repo will belong to
-                  ${DEFAULT_ORG_FOR_GITLAB}
                 gitServerHost:
                   title: Repository Server
                   type: string
@@ -121,22 +114,11 @@ spec:
             - required:
                 - gitServerHost
                 - ciType
-                - repoOwner
                 - workspace
                 - project
               properties:
                 hostType:
-                    const: Bitbucket
-                repoOwner:
-                  title: Repository Owner
-                  type: string
-                  ui:help: The organization, user or project that this repo will belong to
-                  ${DEFAULT_ORG_FOR_BITBUCKET}
-                gitServerHost:
-                  title: Repository Server
-                  type: string
-                  default: ${BITBUCKET__DEFAULT__HOST}
-                  ui:help: "Bitbucket Cloud Default"
+                    const: Bitbucket 
                 workspace:
                   title: Workspace
                   type: string 
@@ -145,6 +127,11 @@ spec:
                   title: Project
                   type: string 
                   ui:help: "Bitbucket Project"
+                gitServerHost:
+                  title: Repository Server
+                  type: string
+                  default: ${BITBUCKET__DEFAULT__HOST}
+                  ui:help: "Bitbucket Cloud Default"
                 ciType:
                   title: CI Provider
                   type: string
