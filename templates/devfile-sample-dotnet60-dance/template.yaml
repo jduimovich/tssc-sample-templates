@@ -61,12 +61,12 @@ spec:
             - required:
                 - ghHost
                 - ciType
-                - repoOwner
+                - ghOwner
                 - hostType
               properties:
                 hostType:
                     const: GitHub
-                repoOwner:
+                ghOwner:
                   title: Repository Owner
                   type: string
                   ui:help: The organization, user or project that this repo will belong to
@@ -91,12 +91,12 @@ spec:
             - required:
                 - glHost
                 - ciType
-                - repoOwner
+                - glOwner
                 - hostType
               properties:
                 hostType:
                     const: GitLab
-                repoOwner:
+                glOwner:
                   title: Repository Owner
                   type: string
                   ui:help: The organization, user or project that this repo will belong to
@@ -121,14 +121,14 @@ spec:
             - required:
                 - bbHost
                 - ciType
-                - repoOwner
+                - bbOwner
                 - hostType   
                 - workspace
                 - project
               properties:
                 hostType:
                     const: Bitbucket
-                repoOwner:
+                bbOwner:
                   title: Repository Owner
                   type: string
                   ui:help: The organization, user or project that this repo will belong to
@@ -201,8 +201,8 @@ spec:
         values:
           name: ${{ parameters.name }}
           namespace: ${{ parameters.namespace }}
-          repoURL: https://${{ parameters.ghHost if parameters.hostType === 'GitHub' else (parameters.glHost if parameters.hostType === 'GitLab' else parameters.bbHost)}}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else parameters.repoOwner  }}/${{ parameters.repoName }}-gitops
-          srcRepoURL: https://${{ parameters.ghHost if parameters.hostType === 'GitHub' else (parameters.glHost if parameters.hostType === 'GitLab' else parameters.bbHost)}}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else parameters.repoOwner  }}/${{ parameters.repoName }}
+          repoURL: https://${{ parameters.ghHost if parameters.hostType === 'GitHub' else (parameters.glHost if parameters.hostType === 'GitLab' else parameters.bbHost)}}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else (parameters.ghOwner if parameters.hostType === 'GitHub' else parameters.glOwner)  }}/${{ parameters.repoName }}-gitops
+          srcRepoURL: https://${{ parameters.ghHost if parameters.hostType === 'GitHub' else (parameters.glHost if parameters.hostType === 'GitLab' else parameters.bbHost)}}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else (parameters.ghOwner if parameters.hostType === 'GitHub' else parameters.glOwner)  }}/${{ parameters.repoName }}
           
     # Renders all the template variables into the files and directory names and content, and places the result in the workspace.
     - id: fetch-skeleton
@@ -219,7 +219,7 @@ spec:
           gitopsSecretName: ${{ 'gitops-auth-secret' if parameters.hostType === 'GitHub' else 'gitlab-auth-secret' }}
           image: '${{ parameters.imageRegistry }}/${{ parameters.imageOrg }}/${{ parameters.imageName }}'
           tags: '["net", "sscs", "sbom", "acs"]'
-          repoURL: https://${{ parameters.ghHost if parameters.hostType === 'GitHub' else (parameters.glHost if parameters.hostType === 'GitLab' else parameters.bbHost)}}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else parameters.repoOwner  }}/${{ parameters.repoName }}-gitops  
+          repoURL: https://${{ parameters.ghHost if parameters.hostType === 'GitHub' else (parameters.glHost if parameters.hostType === 'GitLab' else parameters.bbHost)}}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else (parameters.ghOwner if parameters.hostType === 'GitHub' else parameters.glOwner)  }}/${{ parameters.repoName }}-gitops  
           owner: ${{ parameters.owner }} 
           repoSlug: '${{ parameters.imageOrg }}/${{ parameters.imageName }}'
           defaultBranch: ${{ parameters.branch }} 
@@ -241,7 +241,7 @@ spec:
           gitopsSecretName: ${{ 'gitops-auth-secret' if parameters.hostType === 'GitHub' else 'gitlab-auth-secret' }}
           image: '${{ parameters.imageRegistry }}/${{ parameters.imageOrg }}/${{ parameters.imageName }}'
           tags: '["net", "sscs", "sbom", "acs"]'
-          repoURL: https://${{ parameters.ghHost if parameters.hostType === 'GitHub' else (parameters.glHost if parameters.hostType === 'GitLab' else parameters.bbHost)}}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else parameters.repoOwner  }}/${{ parameters.repoName }}-gitops  
+          repoURL: https://${{ parameters.ghHost if parameters.hostType === 'GitHub' else (parameters.glHost if parameters.hostType === 'GitLab' else parameters.bbHost)}}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else (parameters.ghOwner if parameters.hostType === 'GitHub' else parameters.glOwner)  }}/${{ parameters.repoName }}-gitops  
           owner: ${{ parameters.owner }} 
           repoSlug: '${{ parameters.imageOrg }}/${{ parameters.imageName }}'
           defaultBranch: ${{ parameters.branch }}  
@@ -253,7 +253,7 @@ spec:
       input:
         allowedHosts: [ '${{ parameters.ghHost}}' ]
         description: This is ${{ parameters.name }}
-        repoUrl: ${{ parameters.ghHost }}?owner=${{ parameters.repoOwner }}&repo=${{ parameters.repoName }}
+        repoUrl: ${{ parameters.ghHost }}?owner=${{ parameters.ghOwner }}&repo=${{ parameters.repoName }}
         defaultBranch: ${{ parameters.branch }}
         protectDefaultBranch: false
         repoVisibility: "public"
@@ -265,7 +265,7 @@ spec:
       input:
         allowedHosts: [ '${{ parameters.glHost }}' ]
         description: This is ${{ parameters.name }}
-        repoUrl: ${{ parameters.glHost }}?owner=${{ parameters.repoOwner }}&repo=${{ parameters.repoName }}
+        repoUrl: ${{ parameters.glHost }}?owner=${{ parameters.glOwner }}&repo=${{ parameters.repoName }}
         defaultBranch: ${{ parameters.branch }}
         protectDefaultBranch: false
         repoVisibility: "public"
@@ -276,7 +276,7 @@ spec:
       input:
         allowedHosts: [ '${{ parameters.bbHost }}' ]
         description: This is ${{ parameters.name }}
-        repoUrl: ${{ parameters.bbHost }}?owner=${{ parameters.repoOwner }}&repo=${{ parameters.repoName }}&project=${{ parameters.project }}&workspace=${{ parameters.workspace }}
+        repoUrl: ${{ parameters.bbHost }}?owner=${{ parameters.bbOwner }}&repo=${{ parameters.repoName }}&project=${{ parameters.project }}&workspace=${{ parameters.workspace }}
         defaultBranch: ${{ parameters.branch }}
         protectDefaultBranch: false
         repoVisibility: "public"
@@ -296,8 +296,8 @@ spec:
           rhtapNamespace: rhtap
           defaultDeployNamespace: rhtap-app
           # example: github.com?owner=<owner>&repo=<srcRepo>, the gitops repo name will be <srcRepo>-gitops
-          repoURL: https://${{ parameters.ghHost if parameters.hostType === 'GitHub' else (parameters.glHost if parameters.hostType === 'GitLab' else parameters.bbHost)}}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else parameters.repoOwner  }}/${{ parameters.repoName }}-gitops
-          srcRepoURL: https://${{ parameters.ghHost if parameters.hostType === 'GitHub' else (parameters.glHost if parameters.hostType === 'GitLab' else parameters.bbHost)}}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else parameters.repoOwner  }}/${{ parameters.repoName }}
+          repoURL: https://${{ parameters.ghHost if parameters.hostType === 'GitHub' else (parameters.glHost if parameters.hostType === 'GitLab' else parameters.bbHost)}}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else (parameters.ghOwner if parameters.hostType === 'GitHub' else parameters.glOwner)  }}/${{ parameters.repoName }}-gitops
+          srcRepoURL: https://${{ parameters.ghHost if parameters.hostType === 'GitHub' else (parameters.glHost if parameters.hostType === 'GitLab' else parameters.bbHost)}}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else (parameters.ghOwner if parameters.hostType === 'GitHub' else parameters.glOwner)  }}/${{ parameters.repoName }}
           argoComponent: './components/${{ parameters.name }}/overlays/development'
           argoComponentOverlays: './components/${{ parameters.name }}/overlays'
           owner: ${{ parameters.owner }} 
@@ -330,8 +330,8 @@ spec:
           rhtapNamespace: rhtap
           defaultDeployNamespace: rhtap-app
           # example: github.com?owner=<owner>&repo=<srcRepo>, the gitops repo name will be <srcRepo>-gitops
-          repoURL: https://${{ parameters.ghHost if parameters.hostType === 'GitHub' else (parameters.glHost if parameters.hostType === 'GitLab' else parameters.bbHost)}}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else parameters.repoOwner  }}/${{ parameters.repoName }}-gitops
-          srcRepoURL: https://${{ parameters.ghHost if parameters.hostType === 'GitHub' else (parameters.glHost if parameters.hostType === 'GitLab' else parameters.bbHost)}}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else parameters.repoOwner  }}/${{ parameters.repoName }}
+          repoURL: https://${{ parameters.ghHost if parameters.hostType === 'GitHub' else (parameters.glHost if parameters.hostType === 'GitLab' else parameters.bbHost)}}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else (parameters.ghOwner if parameters.hostType === 'GitHub' else parameters.glOwner)  }}/${{ parameters.repoName }}-gitops
+          srcRepoURL: https://${{ parameters.ghHost if parameters.hostType === 'GitHub' else (parameters.glHost if parameters.hostType === 'GitLab' else parameters.bbHost)}}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else (parameters.ghOwner if parameters.hostType === 'GitHub' else parameters.glOwner)  }}/${{ parameters.repoName }}
           argoComponent: './components/${{ parameters.name }}/overlays/development'
           argoComponentOverlays: './components/${{ parameters.name }}/overlays'
           owner: ${{ parameters.owner }} 
@@ -365,7 +365,7 @@ spec:
         sourcePath: gitops
         allowedHosts: ['${{ parameters.ghHost }}']
         description: This is GitOps repository for ${{ parameters.name }}
-        repoUrl:  ${{ parameters.ghHost }}?owner=${{ parameters.repoOwner }}&repo=${{ parameters.repoName }}-gitops
+        repoUrl:  ${{ parameters.ghHost }}?owner=${{ parameters.ghOwner }}&repo=${{ parameters.repoName }}-gitops
         defaultBranch: "main"
         protectDefaultBranch: false
         repoVisibility: "public"
@@ -378,7 +378,7 @@ spec:
         sourcePath: gitops
         allowedHosts: ['${{ parameters.glHost }}']
         description: This is GitOps repository for ${{ parameters.name }}
-        repoUrl:  ${{ parameters.glHost }}?owner=${{ parameters.repoOwner }}&repo=${{ parameters.repoName }}-gitops
+        repoUrl:  ${{ parameters.glHost }}?owner=${{ parameters.glOwner }}&repo=${{ parameters.repoName }}-gitops
         defaultBranch: "main"
         protectDefaultBranch: false
         repoVisibility: "public"
@@ -390,7 +390,7 @@ spec:
         sourcePath: gitops
         allowedHosts: ['${{ parameters.bbHost }}']
         description: This is GitOps repository for ${{ parameters.name }}
-        repoUrl:  ${{ parameters.bbHost }}?owner=${{ parameters.repoOwner }}&repo=${{ parameters.repoName }}-gitops&project=${{ parameters.project }}&workspace=${{ parameters.workspace }}
+        repoUrl:  ${{ parameters.bbHost }}?owner=${{ parameters.bbOwner }}&repo=${{ parameters.repoName }}-gitops&project=${{ parameters.project }}&workspace=${{ parameters.workspace }}
         defaultBranch: "main"
         protectDefaultBranch: false
         repoVisibility: "public"
@@ -420,7 +420,7 @@ spec:
         # name set in rhdh config
         argoInstance: default
         namespace: rhtap
-        repoUrl: https://${{ parameters.ghHost if parameters.hostType === 'GitHub' else (parameters.glHost if parameters.hostType === 'GitLab' else parameters.bbHost)}}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else parameters.repoOwner  }}/${{ parameters.repoName }}-gitops.git
+        repoUrl: https://${{ parameters.ghHost if parameters.hostType === 'GitHub' else (parameters.glHost if parameters.hostType === 'GitLab' else parameters.bbHost)}}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else (parameters.ghOwner if parameters.hostType === 'GitHub' else parameters.glOwner)  }}/${{ parameters.repoName }}-gitops.git
         path: './app-of-apps'
   # Outputs are displayed to the user after a successful execution of the template.
   output:
