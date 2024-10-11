@@ -390,13 +390,13 @@ spec:
       name: Register
       action: catalog:register
       input:
-        repoContentsUrl: ${{ steps['publish-github'].output.repoContentsUrl if steps['publish-github'].output else steps['publish-gitlab'].output.repoContentsUrl }}
+        repoContentsUrl: ${{ steps['publish-github'].output.repoContentsUrl if steps['publish-github'].output else steps['publish-gitlab'].output.repoContentsUrl  if steps['publish-gitlab'].output else steps['publish-bitbucket'].output.repoContentsUrl }}
         catalogInfoPath: '/catalog-info.yaml'
     - id: register-gitops
       name: Register Gitops
       action: catalog:register
       input:
-        repoContentsUrl: ${{ steps['publish-github-gitops'].output.repoContentsUrl if steps['publish-github-gitops'].output else steps['publish-gitlab-gitops'].output.repoContentsUrl }}
+        repoContentsUrl: ${{ steps['publish-github'].output.repoContentsUrl if steps['publish-github'].output else steps['publish-gitlab'].output.repoContentsUrl  if steps['publish-gitlab-gitops'].output else steps['publish-bitbucket-gitops'].output.repoContentsUrl }}  
         catalogInfoPath: '/catalog-info.yaml'
     - id: create-argocd-resources
       name: Create ArgoCD Resources
