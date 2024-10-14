@@ -23,8 +23,8 @@ export ARGOCD__DEFAULT__INSTANCE=default
 export ARGOCD__DEFAULT__PROJECT=default
 
 
-# For secret reference in Repositroy CRs
-# Secret will be prefixed by CI name, gitlab, or bitbucket
+# For secret reference in Repository CRs
+# Secret will be prefixed by CI name, gitops (for github), or gitlab, or bitbucket
 export GIT__SECRET__DEFAULT__NAME=auth-secret
 export GIT__SECRET__DEFAULT__KEY=password
 export WEBHOOK__SECRET__DEFAULT__NAME=pipelines-secret
