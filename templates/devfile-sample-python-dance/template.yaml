@@ -343,7 +343,7 @@ spec:
           port: 8081
           argoNS: rhtap
           argoProject: default
-          secretRef: ${{ parameters.ciTypeRequiresSecret }}
+          secretRef: ${{ parameters.hostType != 'GitHub' }} 
           isTekton: ${{ parameters.ciType === 'tekton' }} 
           isJenkins: ${{ parameters.ciType === 'jenkins' }} 
           gitSecret: ${{ parameters.ciSecretPrefix }}-auth-secret
@@ -377,7 +377,7 @@ spec:
           port: 8081
           argoNS: rhtap
           argoProject: default
-          secretRef: ${{ parameters.ciTypeRequiresSecret }} 
+          secretRef: ${{ parameters.hostType != 'GitHub' }}  
           isTekton: ${{ parameters.ciType === 'tekton' }} 
           isJenkins: ${{ parameters.ciType === 'jenkins' }}  
           gitSecret: ${{ parameters.ciSecretPrefix }}-auth-secret

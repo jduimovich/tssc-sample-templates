@@ -343,7 +343,7 @@ spec:
           port: sed.edit.IMAGEPORT
           argoNS: ${ARGOCD__DEFAULT__NAMESPACE}
           argoProject: ${ARGOCD__DEFAULT__PROJECT}
-          secretRef: ${{ parameters.ciTypeRequiresSecret }}
+          secretRef: ${{ parameters.hostType != 'GitHub' }} 
           isTekton: ${{ parameters.ciType === 'tekton' }} 
           isJenkins: ${{ parameters.ciType === 'jenkins' }} 
           gitSecret: ${{ parameters.ciSecretPrefix }}-${GIT__SECRET__DEFAULT__NAME}
@@ -377,7 +377,7 @@ spec:
           port: sed.edit.IMAGEPORT
           argoNS: ${ARGOCD__DEFAULT__NAMESPACE}
           argoProject: ${ARGOCD__DEFAULT__PROJECT}
-          secretRef: ${{ parameters.ciTypeRequiresSecret }} 
+          secretRef: ${{ parameters.hostType != 'GitHub' }}  
           isTekton: ${{ parameters.ciType === 'tekton' }} 
           isJenkins: ${{ parameters.ciType === 'jenkins' }}  
           gitSecret: ${{ parameters.ciSecretPrefix }}-${GIT__SECRET__DEFAULT__NAME}
