@@ -61,11 +61,17 @@ spec:
             - required:
                 - ghHost
                 - ciType
+                - ciTypeRequiresSecret
+                - ciSecretPrefix
                 - ghOwner
                 - hostType
               properties:
                 hostType:
                     const: GitHub
+                ciTypeRequiresSecret:
+                    const: false
+                ciSecretPrefix:
+                    const: unused
                 ghOwner:
                   title: Repository Owner
                   type: string
@@ -91,11 +97,17 @@ spec:
             - required:
                 - glHost
                 - ciType
+                - ciTypeRequiresSecret
+                - ciSecretPrefix
                 - glOwner
                 - hostType
               properties:
                 hostType:
                     const: GitLab
+                ciTypeRequiresSecret:
+                    const: true
+                ciSecretPrefix:
+                    const: gitlab
                 glOwner:
                   title: Repository Owner
                   type: string
@@ -121,6 +133,8 @@ spec:
             - required:
                 - bbHost
                 - ciType
+                - ciTypeRequiresSecret
+                - ciSecretPrefix
                 - bbOwner
                 - hostType   
                 - workspace
@@ -128,6 +142,10 @@ spec:
               properties:
                 hostType:
                     const: Bitbucket
+                ciTypeRequiresSecret:
+                    const: true
+                ciSecretPrefix:
+                    const: bitbucket
                 bbOwner:
                   title: Repository Owner
                   type: string
@@ -307,10 +325,10 @@ spec:
           port: sed.edit.IMAGEPORT
           argoNS: ${ARGOCD__DEFAULT__NAMESPACE}
           argoProject: ${ARGOCD__DEFAULT__PROJECT}
-          secretRef: ${{ parameters.hostType === 'GitLab' }}
+          secretRef: ${{ parameters.ciTypeRequiresSecret }}
           isTekton: ${{ parameters.ciType === 'tekton' }} 
           isJenkins: ${{ parameters.ciType === 'jenkins' }} 
-          gitSecret: ${GIT__SECRET__DEFAULT__NAME}
+          gitSecret: ${{ parameters.ciSecretPrefix }}-${GIT__SECRET__DEFAULT__NAME}
           gitSecretKey: ${GIT__SECRET__DEFAULT__KEY}
           webhookSecret: ${WEBHOOK__SECRET__DEFAULT__NAME}
           webhookSecretKey: ${WEBHOOK__SECRET__DEFAULT__KEY}
@@ -341,10 +359,10 @@ spec:
           port: sed.edit.IMAGEPORT
           argoNS: ${ARGOCD__DEFAULT__NAMESPACE}
           argoProject: ${ARGOCD__DEFAULT__PROJECT}
-          secretRef: ${{ parameters.hostType === 'GitLab' }}
+          secretRef: ${{ parameters.ciTypeRequiresSecret }} 
           isTekton: ${{ parameters.ciType === 'tekton' }} 
-          isJenkins: ${{ parameters.ciType === 'jenkins' }} 
-          gitSecret: ${GIT__SECRET__DEFAULT__NAME}
+          isJenkins: ${{ parameters.ciType === 'jenkins' }}  
+          gitSecret: ${{ parameters.ciSecretPrefix }}-${GIT__SECRET__DEFAULT__NAME}
           gitSecretKey: ${GIT__SECRET__DEFAULT__KEY}
           webhookSecret: ${WEBHOOK__SECRET__DEFAULT__NAME}
           webhookSecretKey: ${WEBHOOK__SECRET__DEFAULT__KEY}
