@@ -6,10 +6,10 @@ export BITBUCKET__DEFAULT__HOST=bitbucket.org
 export QUAY__DEFAULT__HOST=quay.io
 
 # leave empty if you don't want to set defaults for your git or quay org 
-export GITHUB__DEFAULT__ORG="northdepot"
-export GITLAB__DEFAULT__ORG="jduimovich"
-export BITBUCKET__DEFAULT__ORG="jduimovich-admin"
-export QUAY__DEFAULT__ORG="jduimovich0"
+export GITHUB__DEFAULT__ORG=""
+export GITLAB__DEFAULT__ORG=""
+export BITBUCKET__DEFAULT__ORG=""
+export QUAY__DEFAULT__ORG=""
 
 # PE can replace these values with own pipeline fork
 export PIPELINE__REPO__URL=https://github.com/redhat-appstudio/tssc-sample-pipelines
@@ -37,7 +37,7 @@ fi
 if [ ! -z "${GITLAB__DEFAULT__ORG}" ]; then
 export DEFAULT_ORG_FOR_GITLAB="default: $GITLAB__DEFAULT__ORG"
 fi
-if [ ! -z "${BITBUCKET__DEFAULT__HOST}" ]; then
+if [ ! -z "${BITBUCKET__DEFAULT__ORG}" ]; then
 export DEFAULT_ORG_FOR_BITBUCKET="default: $BITBUCKET__DEFAULT__ORG"
 fi
 if [ ! -z "${QUAY__DEFAULT__ORG}" ]; then
