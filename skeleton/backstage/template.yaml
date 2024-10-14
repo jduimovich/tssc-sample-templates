@@ -60,17 +60,12 @@ spec:
           oneOf:
             - required:
                 - ghHost
-                - ciType 
-                - ciSecretPrefix
+                - ciType  
                 - ghOwner
                 - hostType
               properties:
                 hostType:
-                  const: GitHub  
-                ciSecretPrefix:
-                  type: string 
-                  ui:widget: hidden   
-                  default: gitops 
+                  const: GitHub   
                 ghOwner:
                   title: Repository Owner
                   type: string
@@ -95,17 +90,12 @@ spec:
                     - Github Actions (SLSA 2) 
             - required:
                 - glHost
-                - ciType 
-                - ciSecretPrefix
+                - ciType  
                 - glOwner
                 - hostType
               properties:
                 hostType:
-                    const: GitLab 
-                ciSecretPrefix:
-                  type: string 
-                  ui:widget: hidden   
-                  default: gitlab  
+                    const: GitLab  
                 glOwner:
                   title: Repository Owner
                   type: string
@@ -130,19 +120,14 @@ spec:
                     - Gitlab CI (SLSA 2) 
             - required:
                 - bbHost
-                - ciType 
-                - ciSecretPrefix
+                - ciType  
                 - bbOwner
                 - hostType   
                 - workspace
                 - project
               properties:
                 hostType:
-                    const: Bitbucket 
-                ciSecretPrefix:
-                  type: string 
-                  ui:widget: hidden   
-                  default: bitbucket   
+                    const: Bitbucket  
                 bbOwner:
                   title: Repository Owner
                   type: string
@@ -230,8 +215,8 @@ spec:
           namespace: ${{ parameters.namespace }}
           description: sed.edit.CATALOG_DESCRIPTION 
           dockerfile: sed.edit.DOCKERFILE
-          buildContext: sed.edit.BUILDCONTEXT
-          gitopsSecretName: ${{ parameters.ciSecretPrefix }}-${GIT__SECRET__DEFAULT__NAME}
+          buildContext: sed.edit.BUILDCONTEXT  
+          gitopsSecretName: ${{ 'gitops-auth-secret' if parameters.hostType === 'GitHub' else ('gitlab-auth-secret' if parameters.hostType === 'GitLab' else 'bitbucket-auth-secret')}} 
           image: '${{ parameters.imageRegistry }}/${{ parameters.imageOrg }}/${{ parameters.imageName }}'
           tags: 'sed.edit.APPTAGS'
           repoURL: https://${{ parameters.ghHost if parameters.hostType === 'GitHub' else (parameters.glHost if parameters.hostType === 'GitLab' else parameters.bbHost)}}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else (parameters.ghOwner if parameters.hostType === 'GitHub' else parameters.glOwner)  }}/${{ parameters.repoName }}-gitops  
@@ -253,7 +238,7 @@ spec:
           description: sed.edit.CATALOG_DESCRIPTION 
           dockerfile: sed.edit.DOCKERFILE
           buildContext: sed.edit.BUILDCONTEXT
-          gitopsSecretName: ${{ parameters.ciSecretPrefix }}-${GIT__SECRET__DEFAULT__NAME}
+          gitopsSecretName: ${{ 'gitops-auth-secret' if parameters.hostType === 'GitHub' else ('gitlab-auth-secret' if parameters.hostType === 'GitLab' else 'bitbucket-auth-secret')}} 
           image: '${{ parameters.imageRegistry }}/${{ parameters.imageOrg }}/${{ parameters.imageName }}'
           tags: 'sed.edit.APPTAGS'
           repoURL: https://${{ parameters.ghHost if parameters.hostType === 'GitHub' else (parameters.glHost if parameters.hostType === 'GitLab' else parameters.bbHost)}}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else (parameters.ghOwner if parameters.hostType === 'GitHub' else parameters.glOwner)  }}/${{ parameters.repoName }}-gitops  
@@ -325,7 +310,7 @@ spec:
           secretRef: ${{ parameters.hostType != 'GitHub' }} 
           isTekton: ${{ parameters.ciType === 'tekton' }} 
           isJenkins: ${{ parameters.ciType === 'jenkins' }} 
-          gitSecret: ${{ parameters.ciSecretPrefix }}-${GIT__SECRET__DEFAULT__NAME}
+          gitSecret: ${{ 'gitops-auth-secret' if parameters.hostType === 'GitHub' else ('gitlab-auth-secret' if parameters.hostType === 'GitLab' else 'bitbucket-auth-secret')}}
           gitSecretKey: ${GIT__SECRET__DEFAULT__KEY}
           webhookSecret: ${WEBHOOK__SECRET__DEFAULT__NAME}
           webhookSecretKey: ${WEBHOOK__SECRET__DEFAULT__KEY}
@@ -359,7 +344,7 @@ spec:
           secretRef: ${{ parameters.hostType != 'GitHub' }}  
           isTekton: ${{ parameters.ciType === 'tekton' }} 
           isJenkins: ${{ parameters.ciType === 'jenkins' }}  
-          gitSecret: ${{ parameters.ciSecretPrefix }}-${GIT__SECRET__DEFAULT__NAME}
+          gitSecret: ${{ 'gitops-auth-secret' if parameters.hostType === 'GitHub' else ('gitlab-auth-secret' if parameters.hostType === 'GitLab' else 'bitbucket-auth-secret')}}
           gitSecretKey: ${GIT__SECRET__DEFAULT__KEY}
           webhookSecret: ${WEBHOOK__SECRET__DEFAULT__NAME}
           webhookSecretKey: ${WEBHOOK__SECRET__DEFAULT__KEY}

@@ -230,8 +230,8 @@ spec:
           namespace: ${{ parameters.namespace }}
           description: Secure Supply Chain Example for Python is an interpreted,  object-oriented, high-level programming language with dynamic semantics. This sample demonstrates software supply chain security functionalty using an advanced continuous integration pipeline covering building, CVE scanning, security scanning, signatures, attestations, SLSA provenance and SBOM along with Gitops-based continuous deployment. 
           dockerfile: docker/Dockerfile
-          buildContext: .
-          gitopsSecretName: ${{ parameters.ciSecretPrefix }}-auth-secret
+          buildContext: .  
+          gitopsSecretName: ${{ 'gitops-auth-secret' if parameters.hostType === 'GitHub' else ('gitlab-auth-secret' if parameters.hostType === 'GitLab' else 'bitbucket-auth-secret')}} 
           image: '${{ parameters.imageRegistry }}/${{ parameters.imageOrg }}/${{ parameters.imageName }}'
           tags: '["python", "pip", "flask", "sscs", "sbom", "acs"]'
           repoURL: https://${{ parameters.ghHost if parameters.hostType === 'GitHub' else (parameters.glHost if parameters.hostType === 'GitLab' else parameters.bbHost)}}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else (parameters.ghOwner if parameters.hostType === 'GitHub' else parameters.glOwner)  }}/${{ parameters.repoName }}-gitops  
@@ -253,7 +253,7 @@ spec:
           description: Secure Supply Chain Example for Python is an interpreted,  object-oriented, high-level programming language with dynamic semantics. This sample demonstrates software supply chain security functionalty using an advanced continuous integration pipeline covering building, CVE scanning, security scanning, signatures, attestations, SLSA provenance and SBOM along with Gitops-based continuous deployment. 
           dockerfile: docker/Dockerfile
           buildContext: .
-          gitopsSecretName: ${{ parameters.ciSecretPrefix }}-auth-secret
+          gitopsSecretName: ${{ 'gitops-auth-secret' if parameters.hostType === 'GitHub' else ('gitlab-auth-secret' if parameters.hostType === 'GitLab' else 'bitbucket-auth-secret')}} 
           image: '${{ parameters.imageRegistry }}/${{ parameters.imageOrg }}/${{ parameters.imageName }}'
           tags: '["python", "pip", "flask", "sscs", "sbom", "acs"]'
           repoURL: https://${{ parameters.ghHost if parameters.hostType === 'GitHub' else (parameters.glHost if parameters.hostType === 'GitLab' else parameters.bbHost)}}/${{ parameters.workspace if parameters.hostType === 'Bitbucket' else (parameters.ghOwner if parameters.hostType === 'GitHub' else parameters.glOwner)  }}/${{ parameters.repoName }}-gitops  
@@ -325,7 +325,7 @@ spec:
           secretRef: ${{ parameters.hostType != 'GitHub' }} 
           isTekton: ${{ parameters.ciType === 'tekton' }} 
           isJenkins: ${{ parameters.ciType === 'jenkins' }} 
-          gitSecret: ${{ parameters.ciSecretPrefix }}-auth-secret
+          gitSecret: ${{ 'gitops-auth-secret' if parameters.hostType === 'GitHub' else ('gitlab-auth-secret' if parameters.hostType === 'GitLab' else 'bitbucket-auth-secret')}}
           gitSecretKey: password
           webhookSecret: pipelines-secret
           webhookSecretKey: webhook.secret
@@ -359,7 +359,7 @@ spec:
           secretRef: ${{ parameters.hostType != 'GitHub' }}  
           isTekton: ${{ parameters.ciType === 'tekton' }} 
           isJenkins: ${{ parameters.ciType === 'jenkins' }}  
-          gitSecret: ${{ parameters.ciSecretPrefix }}-auth-secret
+          gitSecret: ${{ 'gitops-auth-secret' if parameters.hostType === 'GitHub' else ('gitlab-auth-secret' if parameters.hostType === 'GitLab' else 'bitbucket-auth-secret')}}
           gitSecretKey: password
           webhookSecret: pipelines-secret
           webhookSecretKey: webhook.secret
