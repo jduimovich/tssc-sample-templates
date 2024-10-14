@@ -307,6 +307,8 @@ spec:
           port: sed.edit.IMAGEPORT
           argoNS: ${ARGOCD__DEFAULT__NAMESPACE}
           argoProject: ${ARGOCD__DEFAULT__PROJECT}
+          hostType: ${{ parameters.hostType }} 
+          username: ${{ parameters.bbOwner }} 
           secretRef: ${{ parameters.hostType != 'GitHub' }} 
           isTekton: ${{ parameters.ciType === 'tekton' }} 
           isJenkins: ${{ parameters.ciType === 'jenkins' }} 
@@ -341,6 +343,8 @@ spec:
           port: sed.edit.IMAGEPORT
           argoNS: ${ARGOCD__DEFAULT__NAMESPACE}
           argoProject: ${ARGOCD__DEFAULT__PROJECT}
+          hostType: ${{ parameters.hostType }} 
+          username: ${{ parameters.bbOwner }} 
           secretRef: ${{ parameters.hostType != 'GitHub' }}  
           isTekton: ${{ parameters.ciType === 'tekton' }} 
           isJenkins: ${{ parameters.ciType === 'jenkins' }}  

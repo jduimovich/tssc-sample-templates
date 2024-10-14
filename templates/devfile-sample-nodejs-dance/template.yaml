@@ -60,17 +60,12 @@ spec:
           oneOf:
             - required:
                 - ghHost
-                - ciType 
-                - ciSecretPrefix
+                - ciType  
                 - ghOwner
                 - hostType
               properties:
                 hostType:
-                  const: GitHub  
-                ciSecretPrefix:
-                  type: string 
-                  ui:widget: hidden   
-                  default: gitops 
+                  const: GitHub   
                 ghOwner:
                   title: Repository Owner
                   type: string
@@ -95,17 +90,12 @@ spec:
                     - Github Actions (SLSA 2) 
             - required:
                 - glHost
-                - ciType 
-                - ciSecretPrefix
+                - ciType  
                 - glOwner
                 - hostType
               properties:
                 hostType:
-                    const: GitLab 
-                ciSecretPrefix:
-                  type: string 
-                  ui:widget: hidden   
-                  default: gitlab  
+                    const: GitLab  
                 glOwner:
                   title: Repository Owner
                   type: string
@@ -130,19 +120,14 @@ spec:
                     - Gitlab CI (SLSA 2) 
             - required:
                 - bbHost
-                - ciType 
-                - ciSecretPrefix
+                - ciType  
                 - bbOwner
                 - hostType   
                 - workspace
                 - project
               properties:
                 hostType:
-                    const: Bitbucket 
-                ciSecretPrefix:
-                  type: string 
-                  ui:widget: hidden   
-                  default: bitbucket   
+                    const: Bitbucket  
                 bbOwner:
                   title: Repository Owner
                   type: string
@@ -322,6 +307,8 @@ spec:
           port: 3001
           argoNS: rhtap
           argoProject: default
+          hostType: ${{ parameters.hostType }} 
+          username: ${{ parameters.bbOwner }} 
           secretRef: ${{ parameters.hostType != 'GitHub' }} 
           isTekton: ${{ parameters.ciType === 'tekton' }} 
           isJenkins: ${{ parameters.ciType === 'jenkins' }} 
@@ -356,6 +343,8 @@ spec:
           port: 3001
           argoNS: rhtap
           argoProject: default
+          hostType: ${{ parameters.hostType }} 
+          username: ${{ parameters.bbOwner }} 
           secretRef: ${{ parameters.hostType != 'GitHub' }}  
           isTekton: ${{ parameters.ciType === 'tekton' }} 
           isJenkins: ${{ parameters.ciType === 'jenkins' }}  

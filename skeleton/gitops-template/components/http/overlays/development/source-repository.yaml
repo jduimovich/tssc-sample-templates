@@ -6,6 +6,9 @@ spec:
   url: ${{ values.srcRepoURL }}
   {%- if values.secretRef %}
   git_provider:
+    {%- if values.hostType == 'Bitbucket' %}
+    user: ${{ values.username }}
+    {%- endif %}
     secret:
         name: ${{ values.gitSecret }}
         key: ${{ values.gitSecretKey }}
