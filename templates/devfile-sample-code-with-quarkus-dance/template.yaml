@@ -60,23 +60,16 @@ spec:
           oneOf:
             - required:
                 - ghHost
-                - ciType
-                - ciTypeRequiresSecret
+                - ciType 
                 - ciSecretPrefix
                 - ghOwner
                 - hostType
               properties:
                 hostType:
-                  const: GitHub 
-                ciTypeRequiresSecret:
-                  type: boolean 
-                  ui:widget: hidden  
-                  ui:readonly: true 
-                  default: false 
+                  const: GitHub  
                 ciSecretPrefix:
                   type: string 
-                  ui:widget: hidden  
-                  ui:readonly: true 
+                  ui:widget: hidden   
                   default: gitops 
                 ghOwner:
                   title: Repository Owner
@@ -102,23 +95,16 @@ spec:
                     - Github Actions (SLSA 2) 
             - required:
                 - glHost
-                - ciType
-                - ciTypeRequiresSecret
+                - ciType 
                 - ciSecretPrefix
                 - glOwner
                 - hostType
               properties:
                 hostType:
-                    const: GitLab
-                ciTypeRequiresSecret:
-                  type: boolean 
-                  ui:widget: hidden  
-                  ui:readonly: true 
-                  default: true 
+                    const: GitLab 
                 ciSecretPrefix:
                   type: string 
-                  ui:widget: hidden  
-                  ui:readonly: true 
+                  ui:widget: hidden   
                   default: gitlab  
                 glOwner:
                   title: Repository Owner
@@ -144,8 +130,7 @@ spec:
                     - Gitlab CI (SLSA 2) 
             - required:
                 - bbHost
-                - ciType
-                - ciTypeRequiresSecret
+                - ciType 
                 - ciSecretPrefix
                 - bbOwner
                 - hostType   
@@ -153,16 +138,10 @@ spec:
                 - project
               properties:
                 hostType:
-                    const: Bitbucket
-                ciTypeRequiresSecret:
-                  type: boolean 
-                  ui:widget: hidden  
-                  ui:readonly: true 
-                  default: true 
+                    const: Bitbucket 
                 ciSecretPrefix:
                   type: string 
-                  ui:widget: hidden  
-                  ui:readonly: true 
+                  ui:widget: hidden   
                   default: bitbucket   
                 bbOwner:
                   title: Repository Owner
