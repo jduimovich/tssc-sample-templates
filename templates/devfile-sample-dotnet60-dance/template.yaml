@@ -67,11 +67,17 @@ spec:
                 - hostType
               properties:
                 hostType:
-                    const: GitHub
+                  const: GitHub 
                 ciTypeRequiresSecret:
-                    const: false
+                  type: boolean 
+                  ui:widget: hidden  
+                  ui:readonly: true 
+                  default: false 
                 ciSecretPrefix:
-                    const: gitops
+                  type: string 
+                  ui:widget: hidden  
+                  ui:readonly: true 
+                  default: gitops 
                 ghOwner:
                   title: Repository Owner
                   type: string
@@ -105,9 +111,15 @@ spec:
                 hostType:
                     const: GitLab
                 ciTypeRequiresSecret:
-                    const: true
+                  type: boolean 
+                  ui:widget: hidden  
+                  ui:readonly: true 
+                  default: true 
                 ciSecretPrefix:
-                    const: gitlab
+                  type: string 
+                  ui:widget: hidden  
+                  ui:readonly: true 
+                  default: gitlab  
                 glOwner:
                   title: Repository Owner
                   type: string
@@ -143,9 +155,15 @@ spec:
                 hostType:
                     const: Bitbucket
                 ciTypeRequiresSecret:
-                    const: true
+                  type: boolean 
+                  ui:widget: hidden  
+                  ui:readonly: true 
+                  default: true 
                 ciSecretPrefix:
-                    const: bitbucket
+                  type: string 
+                  ui:widget: hidden  
+                  ui:readonly: true 
+                  default: bitbucket   
                 bbOwner:
                   title: Repository Owner
                   type: string
